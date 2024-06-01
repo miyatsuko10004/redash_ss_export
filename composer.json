@@ -1,0 +1,18 @@
+{
+    "name": "root/redash_ss_export",
+    "description": "Export Redash results to Google Sheets",
+    "authors": [
+        {
+            "name": "miyatsuko10004",
+            "email": "manyo10004@gmail.com"
+        }
+    ],
+    "require": {
+        "google/apiclient": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Root\\RedashSsExport\\": "src/"
+        }
+    }
+}
