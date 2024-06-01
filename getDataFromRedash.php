@@ -46,8 +46,18 @@ function update_google_sheet($data, $spreadsheet_id, $range_name) {
     // データを整形して書き込み
     $values = [];
     foreach ($data["query_result"]["data"]["rows"] as $row) {
-        $values[] = array_values($row);
+        $row_data = array_values((array)$row);
+        // NULL値を空文字列に変換
+        foreach ($row_data as &$value) {
+            if (is_null($value)) {
+                $value = '';
+            }
+        }
+        $values[] = $row_data;
     }
+
+    // 整形後のデータを確認
+    echo json_encode($values, JSON_PRETTY_PRINT);
 
     $body = new Sheets\ValueRange([
         'values' => $values
