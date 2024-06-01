@@ -40,7 +40,7 @@ function update_google_sheet($data, $spreadsheet_id, $range_name) {
     $client = new Client();
     $client->setApplicationName('Redash to Google Sheets');
     $client->setScopes([Sheets::SPREADSHEETS]);
-    $client->setAuthConfig('path/to/your/service-account-file.json');
+    $client->setAuthConfig(__DIR__ . '/service-account.json');
     $service = new Sheets($client);
 
     // データを整形して書き込み
@@ -71,4 +71,3 @@ function main() {
 }
 
 main();
-
