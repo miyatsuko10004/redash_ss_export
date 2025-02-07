@@ -43,8 +43,18 @@ function update_google_sheet($data, $spreadsheet_id, $range_name) {
     $client->setAuthConfig(__DIR__ . '/service-account.json'); // 正しいパスを指定
     $service = new Sheets($client);
 
-    // データを整形して書き込み
+    // Redashから取得したデータを整形
     $values = [];
+
+    // **カラム名を取得して先頭に追加**
+    if (!empty($data["query_result"]["data"]["columns"])) {
+        $columns = array_map(function($col) {
+            return $col["name"];
+        }, $data["query_result"]["data"]["columns"]);
+        $values[] = $columns; // カラム名を先頭に追加
+    }
+
+    // データの行を整形
     foreach ($data["query_result"]["data"]["rows"] as $row) {
         $row_data = array_values((array)$row);
         // NULL値を空文字列に変換
@@ -67,6 +77,7 @@ function update_google_sheet($data, $spreadsheet_id, $range_name) {
         'valueInputOption' => 'RAW'
     ];
 
+    // Google Sheetsにデータを更新
     $service->spreadsheets_values->update($spreadsheet_id, $range_name, $body, $params);
 }
 
