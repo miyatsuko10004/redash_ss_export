@@ -1,3 +1,4 @@
 .idea
 .env
 service-account.json
+vendor/
